@@ -1,3 +1,15 @@
+let playerScore = 0;
+let computerScore = 0;
+let result;
+
+let player = document.querySelector('.player');
+let computer = document.querySelector('.computer');
+let title = document.querySelector('.title');
+let buttons = document.querySelectorAll('button');
+
+function disableButton(){
+    document.querySelectorAll('button').forEach(el => el.setAttribute('disabled', true));
+}
 function getComputerChoice(){
     choice = Math.floor(Math.random() * 4);
     if(choice == 1){
@@ -11,21 +23,44 @@ function getComputerChoice(){
     }
 }
 
-function playRound(){
-    let playerChoice = prompt("Choose Rock Paper or Scissors").toLowerCase();
+function playerSelection(e){
+    let choice = e.target.className;
+    result = playRound(choice);
+
+    if(result == "Player"){
+        playerScore++;
+        player.textContent = "Your Score: " + playerScore;
+    }
+    else if(result == "Computer"){
+        computerScore++;
+        computer.textContent ="My Score: " + computerScore;
+    }
+
+    if(playerScore == 5){
+        title.textContent = "You Win! You're score is " + playerScore;
+        disableButton();
+    }
+    else if(computerScore == 5){
+        title.textContent = "You Lose...better luck next time";
+        disableButton();
+    }
+}
+
+function playRound(choice){
+    let playerChoice = choice.toLowerCase();
     let computerChoice = getComputerChoice();
 
     if(computerChoice == "Rock"){
         switch (playerChoice) {
             case "rock":
-                console.log("It's a Tie!");
+                title.textContent = "It's a Tie!";
                 break;
             case "paper":
-                console.log("Point to you! Paper beats Rock!");
+                title.textContent = "Point to you! Paper beats Rock!";
                 return "Player";
                 break;
             case "scissors":
-                console.log("Rock beats Scissors! My point!");
+                title.textContent = "Rock beats Scissors! My point!";
                 return "Computer";
                 break;
         }
@@ -33,14 +68,14 @@ function playRound(){
     else if(computerChoice == "Paper"){
         switch (playerChoice) {
             case "rock":
-                console.log("Paper beats Rock! My point!");
+                title.textContent = "Paper beats Rock! My point!";
                 return "Computer";
                 break;
             case "paper":
-                console.log("It's a tie!");
+                title.textContent = "It's a tie!";
                 break;
             case "scissors":
-                console.log("Point to you! Scissors beats Paper!");
+                title.textContent = "Point to you! Scissors beats Paper!";
                 return "Player";
                 break;
         }
@@ -48,15 +83,15 @@ function playRound(){
     else{
         switch (playerChoice) {
             case "rock":
-                console.log("Point to you! Rock beats Scissors!");
+                title.textContent = "Point to you! Rock beats Scissors!";
                 return "Player";
                 break;
             case "paper":
-                console.log("Scissors beats Paper! My point!");
+                title.textContent = "Scissors beats Paper! My point!";
                 return "Computer";
                 break;
             case "scissors":
-                console.log("It's a tie!");
+                title.textContent = "It's a tie!";
                 break;
         }
     }
@@ -64,30 +99,4 @@ function playRound(){
     return 
 }
 
-function game(){
-    let playerScore = 0
-    let computerScore = 0
-    let result;
-    for(let i = 0; i < 5; i++){
-        result = playRound();
-        if(result == "Player"){
-            playerScore++;
-        }
-        else if(result == "Computer"){
-            computerScore++;
-        }
-    }
-
-    console.log(playerScore);
-    if(playerScore > computerScore){
-        console.log("You Win! You're score is " + playerScore)
-    }
-    else if(playerScore < computerScore){
-        console.log("You Lose...better luck next time")
-    }
-    else{
-        console.log("It's a Tie! Try Again?")
-    }
-}
-
-game();
+window.addEventListener('click', playerSelection);
