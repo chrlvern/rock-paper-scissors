@@ -29,11 +29,11 @@ function playerSelection(e){
 
     if(result == "Player"){
         playerScore++;
-        player.textContent = "Your Score: " + playerScore;
+        player.textContent = playerScore;
     }
     else if(result == "Computer"){
         computerScore++;
-        computer.textContent ="My Score: " + computerScore;
+        computer.textContent =computerScore;
     }
 
     if(playerScore == 5){
